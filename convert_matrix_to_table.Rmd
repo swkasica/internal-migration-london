@@ -156,12 +156,152 @@ To run the script use the `source` command followed by the name that you used fo
 source('squaretabletolong.R')
 ```
 
-## To do...
+## Creating a function instead of a script
 
-Complete self-contained script
+It might be easier to save the code in a function instead of a script. 
 
-Take length of any square table instead of 12
+Here's the code to create a function that takes 2 pieces of information (the number of columns, and a list of headings) and returns a column for you that contains those headings multiplied by the number of columns:
 
-Convert to function
+```{r}
+squaretotable <- function(colnum,headers){
+  #create empty vector, which will be filled and returned
+  col1 <- c()
+  #first loop
+  for (i in c(1:colnum)){
+    #second loop
+    for (a in c(1:colnum)) {
+      col1 <- c(col1, headers[a])
+    }
+  }
+  return(col1)
+}
+```
+
+Running the function looks like this:
+
+```{r}
+col1 <- squaretotable(12,regionnames)
+```
+
+Or indeed:
+
+```{r}
+#Note that we can call the results anything we want - col1 is just used within the function
+col2 <- squaretotable(length(regionnames),regionnames)
+```
+
+In fact, if we know that the number is always going to be the length of the list of column headings, we only need one variable in the function, like so:
+
+```{r}
+squaretotable2 <- function(headers){
+  #create empty vector, which will be filled and returned
+  col1 <- c()
+  colnum <- length(headers)
+  #first loop
+  for (i in c(1:colnum)){
+    #second loop
+    for (a in c(1:colnum)) {
+      col1 <- c(col1, headers[a])
+    }
+  }
+  return(col1)
+}
+```
+
+And test:
+
+```{r}
+col3 <- squaretotable2(regionnames)
+```
+
+### Expanding the function to convert the whole table
+
+That function only generates one column of what we end up with. Can we expand it to do the whole thing? 
+
+First we need to list the tasks to complete:
+
+1. We have a square table (in this case 12x12). 
+2. Column 1 needs to contain the headings, each of which is repeated once, 12 times
+3. Column 2 needs to contain the headings, each of which is repeated 12 times, once
+4. Column 3 needs to contain the data as a single array
+
+```{r}
+squaretotableall <- function(headers, yourtable){
+  #create empty vector, which will be filled and returned
+  col1 <- c()
+  colnum <- length(headers)
+  #first loop
+  for (i in c(1:colnum)){
+    #second loop
+    for (a in c(1:colnum)) {
+      col1 <- c(col1, headers[a])
+    }
+  }
+  col2 <- c()
+    #first loop
+  for (i in c(1:colnum)){
+    #second loop
+    for (a in c(1:colnum)) {
+      col2 <- c(col2, headers[i])
+    }
+  }
+  #convert to matrix
+  yourmatrix <- as.matrix(yourtable[,-1])
+  #create an array
+  col3 <- array(yourmatrix)
+  newtable <- data.frame(col1, col2, col3)
+  return(newtable)
+}
+```
+
+
+Now to test
+```{r}
+newtable <- squaretotableall(regionnames,regions)
+```
+
+We can now copy the function code to the self-contained R script so when called it adds the function to any R project, which can then be called.
+
+## Simplifying further
+
+We could further improve this function by extracting the headings from the table (we need to exclude the first one). In fact, all it needs is one line: `headers <- colnames(yourtable[-1])`
+
+This grabs all the column names apart from the first one.
+
+```{r}
+stot_all <- function(yourtable){
+  #create empty vector, which will be filled and returned
+  col1 <- c()
+  headers <- colnames(yourtable[-1])
+  colnum <- length(headers)
+  #first loop
+  for (i in c(1:colnum)){
+    #second loop
+    for (a in c(1:colnum)) {
+      col1 <- c(col1, headers[a])
+    }
+  }
+  col2 <- c()
+    #first loop
+  for (i in c(1:colnum)){
+    #second loop
+    for (a in c(1:colnum)) {
+      col2 <- c(col2, headers[i])
+    }
+  }
+  #convert to matrix
+  yourmatrix <- as.matrix(yourtable[,-1])
+  #create an array
+  col3 <- array(yourmatrix)
+  newtable <- data.frame(col1, col2, col3)
+  return(newtable)
+}
+```
+
+Now to test
+```{r}
+stotalltest <- stot_all(regions)
+```
+
 
 Rewrite using [better practice outlined here](https://stackoverflow.com/questions/22235809/append-value-to-empty-vector-in-r)
