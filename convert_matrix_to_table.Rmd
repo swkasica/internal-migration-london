@@ -76,7 +76,7 @@ A basic `for` loop looks like this: `for (item in list of items) { do something 
 Here, for example, are two lines:
 
 1. Create an empty vector variable called `rs`
-2. Run a `for` loop which goes through the range of numbers 1 to 12, and for each adds it to that previously empty vector variable
+2. Run a `for` loop which goes through the range of numbers 1 to 12, and for each adds it to that previously empty vector variable. (Note: [apparently it's not ideal to add to vectors this way, but I'm doing it this way for now](https://stackoverflow.com/questions/22235809/append-value-to-empty-vector-in-r)).
 
 When the loop has run 12 times (once for each item in that range of numbers), the vector contains all 12 numbers.
 
@@ -156,3 +156,12 @@ To run the script use the `source` command followed by the name that you used fo
 source('squaretabletolong.R')
 ```
 
+## To do...
+
+Complete self-contained script
+
+Take length of any square table instead of 12
+
+Convert to function
+
+Rewrite using [better practice outlined here](https://stackoverflow.com/questions/22235809/append-value-to-empty-vector-in-r)
