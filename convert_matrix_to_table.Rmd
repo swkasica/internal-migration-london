@@ -29,6 +29,11 @@ rownames(regionsmatrix)  <- colnames(regionsmatrix)
 rownames(regionsmatrix) 
 ```
 
+```{r}
+#added by Steve
+regionnames <- colnames(regionsmatrix)
+```
+
 Now we have the rows and columns both using the region names, and the data is numerical. *And* it's all in a matrix.
 
 But how do we convert this to a format which can be used for network graphs?
